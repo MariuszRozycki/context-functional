@@ -1,25 +1,48 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { AppContext, defaultObject } from './AppContext';
+
+import Button from './Button';
+import UserInfo from './UserInfo';
+
 import './App.css';
 
-function App() {
+
+
+const App = () => {
+  const [isUserLogged, setIsUserLogged] = useState(defaultObject.isUserLogged);
+  const [isUserAdult, setIsUserAdult] = useState(true);
+
+
+  const handleToggleLoggedState = () => setIsUserLogged(prevValue => !prevValue);
+  const handleToggleAdultState = () => setIsUserAdult(prevValue => !prevValue);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <AppContext.Provider value={{
+        isUserLogged: isUserLogged,
+        toggleLoggedState: handleToggleLoggedState
+      }}>
+        <UserInfo />
+        <Button />
+      </AppContext.Provider>
+
+      {/* Is User Adult */}
+
+      <AppContext.Provider value={{
+        isUserLogged: isUserAdult,
+        toggleLoggedState: handleToggleAdultState
+      }}>
+        <UserInfo />
+        <Button />
+      </AppContext.Provider>
+
     </div>
   );
+
+
 }
 
 export default App;
+
+
